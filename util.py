@@ -3,6 +3,7 @@
 import json
 import os
 import pandas as pd
+from datetime import datetime
 def read_json(fname):
     #import pdb; pdb.set_trace()
     df=pd.read_json(fname)
@@ -174,7 +175,16 @@ def assignsave(ndf,data,user,time,suspect,judge):
 
 
 newdic = {"UserID":[],"Timestamp":[],"EventType":[],"DocumentName":[],"DocumentType":[],"Source":[], "Keywords":[],"People":[],"Sender":[],"Receiver":[],"StartTime":[],"EndTime":[],"Origin":[], "Destination":[],"ReasoningText":[],"ReasoningSelect":[],"InnocentOrGuilty":[],"Suspect":[]}
+df = df.sort_values(['user','time'])
 for index, row in df.iterrows():
+    rowt = datetime.fromtimestamp(row['time']/1000)
+    if index+1 <len(df):
+        nextrow = df.iloc[index+1]
+        if nextrow['action']==row['action'] and nextrow['data']==row['data'] and nextrow['raw']==row['raw'] and nextrow['user']==row['user']:
+            if (datetime.fromtimestamp(nextrow['time']/1000)-datetime.fromtimestamp(row['time']/1000)).total_seconds()<2:
+                if 'switch' not in row['action']:
+                    import pdb; pdb.set_trace()
+                continue
     if row['action']=='user justification':
         try:
             searchdf(newdic,row['data'],row['user'],row['time'])

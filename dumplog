@@ -1,0 +1,5 @@
+mongoexport --db meteor --collection userLog  --out userlog.json
+mongoexport --db meteor --collection DiscoveredDocuments  --out DiscoveredDocuments.json
+mongoexport --db meteor --collection users  --out users.json
+tar -cvzf log_files.tar.gz userlog.json DiscoveredDocuments.json users.json
+
