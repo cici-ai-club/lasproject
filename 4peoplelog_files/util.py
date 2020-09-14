@@ -1,9 +1,10 @@
 '''User ID  Timestamp   Event Type  Name of Document    Type of Document    Source  Keywords    People  Sender  Receiver    Start Time  End Time    Origin  Destination Justification   Innocent or Guilty  Suspect '''
-
 import json
 import os
 import pandas as pd
 from datetime import datetime
+from time import mktime as mktime
+import ciso8601
 def read_json(fname):
     #import pdb; pdb.set_trace()
     df=pd.read_json(fname,lines=True)
@@ -55,11 +56,19 @@ def searchdf(ndf,data,user,time):
     else: 
         ndf['Receiver'].append("")
     if "start" in data['times']:
-        ndf['StartTime'].append(data['times']['start'])
+        if('T' in data['times']['start']):
+            st = int(mktime(ciso8601.parse_datetime(data['times']['start']).timetuple()))
+        else:
+            st = data['times']['start']
+        ndf['StartTime'].append(st)
     else:
         ndf['StartTime'].append("")
     if "end" in data['times']:
-        ndf['EndTime'].append(data['times']['end'])
+        if 'T' in data['times']['end']:
+            et = int(mktime(ciso8601.parse_datetime(data['times']['end']).timetuple()))
+        else:
+            et = data['times']['end']
+        ndf['EndTime'].append(et)
     else:
         ndf['EndTime'].append("")
     if 'Origin' in data['locations']:
@@ -111,11 +120,19 @@ def readdoc(ndf,data,user,time):
     else: 
         ndf['Receiver'].append("")
     if "Start Time" in data:
-        ndf['StartTime'].append(data['Start Time'])
+        if "T" in str(data['Start Time']):
+            readst = int(mktime(ciso8601.parse_datetime(data['Start Time']).timetuple()))
+        else:
+            readst = data['Start Time']
+        ndf['StartTime'].append(readst)
     else:
         ndf['StartTime'].append("")
     if "'End Time" in data:
-        ndf['EndTime'].append(data['End Time'])
+        if "T" in str(data['End Time']):
+            readnt = int(mktime(ciso8601.parse_datetime(data['End Time']).timetuple()))
+        else:
+            readnt = data['End Time'] 
+        ndf['EndTime'].append(readnt)
     else:
         ndf['EndTime'].append("")
     if 'Origin' in data:
@@ -164,11 +181,19 @@ def assignsave(ndf,data,user,time,suspect,judge):
     else: 
         ndf['Receiver'].append("")
     if 'times' in data and "start" in data['times']:
-        ndf['StartTime'].append(data['times']['start'])
+        if('T' in data['times']['start']):
+            savest = int(mktime(ciso8601.parse_datetime(data['times']['start']).timetuple()))
+        else:
+            savest = data['times']['start']
+        ndf['StartTime'].append(savest)
     else:
         ndf['StartTime'].append("")
     if 'times' in data and "end" in data['times']:
-        ndf['EndTime'].append(data['times']['end'])
+        if('T' in data['times']['end']):
+            savent = int(mktime(ciso8601.parse_datetime(data['times']['end']).timetuple()))
+        else:
+            savent = data['times']['end']
+        ndf['EndTime'].append(savent)
     else:
         ndf['EndTime'].append("")
     if 'locations' in data and 'Origin' in data['locations']:
@@ -187,7 +212,6 @@ def assignsave(ndf,data,user,time,suspect,judge):
         ndf['ReasoningSelect'].append(data['reasoningSelect'])
     else:
          ndf['ReasoningSelect'].append("")
-
 
 
 newdic = {"UserID":[],"Timestamp":[],"EventType":[],"DocumentName":[],"DocumentType":[],"Source":[], "Keywords":[],"People":[],"Sender":[],"Receiver":[],"StartTime":[],"EndTime":[],"Origin":[], "Destination":[],"ReasoningText":[],"ReasoningSelect":[],"InnocentOrGuilty":[],"Suspect":[]}
@@ -236,6 +260,4 @@ validnewdf.loc[validnewdf['EventType']=='save important document','EventType'] =
 validnewdf.loc[validnewdf['EventType']=='save search','EventType'] = "save"
 validnewdf = validnewdf.sort_values('Timestamp') 
 validnewdf.to_csv("validuserlog.csv",index=False,header=True,columns=newdic.keys())
-import pdb; pdb.set_trace()
 print(len(validnewdf))
-
