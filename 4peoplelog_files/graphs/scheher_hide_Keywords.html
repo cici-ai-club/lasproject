@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>scheher_hide_Keywords</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": 1, "label": 1, "shape": "dot", "size": 10, "title": "EventType:discover\u003cbr\u003eDocumentName:N/A\u003cbr\u003eDocumentType:Any\u003cbr\u003eSource:Any\u003cbr\u003ePeople:N/A\u003cbr\u003eSender:N/A\u003cbr\u003eReceiver:N/A\u003cbr\u003eStartTime:N/A.0\u003cbr\u003eEndTime:N/A.0\u003cbr\u003eOrigin:Any\u003cbr\u003eDestination:Any\u003cbr\u003eInnocentOrGuilty:N/A\u003cbr\u003eSuspect:N/A\u003cbr\u003eReasoningSelect:Just exploring the data\u003cbr\u003eUserID_x:1805570777\u003cbr\u003eReasoningText_x:What kind of person is Michelle. \u003cbr\u003eUserID_y:N/A105628286\u003cbr\u003eReasoningText_y:What is RoadBloc? What is CARGO? I need more information on roadnav.\u003cbr\u003eUserID_x.1:311605230\u003cbr\u003eReasoningText_x.1:need more info on xin\n i want to know more about michelle\n\u003cbr\u003eUserID_y.1:-2110079241\u003cbr\u003eReasoningText_y.1:check more information about Michelle search more information on roadnav.exe"}, {"id": 0, "label": 0, "shape": "dot", "size": 10, "title": "EventType:read\u003cbr\u003eDocumentName:police_report.pdf\u003cbr\u003eDocumentType:Information\u003cbr\u003eSource:Web\u003cbr\u003ePeople:Michelle Daryl Xin Ivan Anna\u003cbr\u003eSender:N/A\u003cbr\u003eReceiver:N/A\u003cbr\u003eStartTime:1588564800.0\u003cbr\u003eEndTime:N/A.0\u003cbr\u003eOrigin:N/A\u003cbr\u003eDestination:N/A\u003cbr\u003eInnocentOrGuilty:N/A\u003cbr\u003eSuspect:N/A\u003cbr\u003eReasoningSelect:N/A\u003cbr\u003eUserID_x:1805570777\u003cbr\u003eReasoningText_x:N/A\u003cbr\u003eUserID_y:N/A105628286\u003cbr\u003eReasoningText_y:N/A\u003cbr\u003eUserID_x.1:311605230\u003cbr\u003eReasoningText_x.1:N/A\u003cbr\u003eUserID_y.1:-2110079241\u003cbr\u003eReasoningText_y.1:N/A"}, {"id": 2, "label": 2, "shape": "dot", "size": 10, "title": "EventType:read\u003cbr\u003eDocumentName:roadeez_info.html\u003cbr\u003eDocumentType:Information\u003cbr\u003eSource:Web\u003cbr\u003ePeople:Michelle Anna Darly Xin Ivan\u003cbr\u003eSender:N/A\u003cbr\u003eReceiver:N/A\u003cbr\u003eStartTime:1588564800.0\u003cbr\u003eEndTime:N/A.0\u003cbr\u003eOrigin:N/A\u003cbr\u003eDestination:N/A\u003cbr\u003eInnocentOrGuilty:N/A\u003cbr\u003eSuspect:N/A\u003cbr\u003eReasoningSelect:N/A\u003cbr\u003eUserID_x:1805570777\u003cbr\u003eReasoningText_x:N/A\u003cbr\u003eUserID_y:N/A105628286\u003cbr\u003eReasoningText_y:N/A\u003cbr\u003eUserID_x.1:311605230\u003cbr\u003eReasoningText_x.1:N/A\u003cbr\u003eUserID_y.1:-2110079241\u003cbr\u003eReasoningText_y.1:N/A"}, {"id": 3, "label": 3, "shape": "dot", "size": 10, "title": "EventType:discover\u003cbr\u003eDocumentName:N/A\u003cbr\u003eDocumentType:Any\u003cbr\u003eSource:Any\u003cbr\u003ePeople:N/A\u003cbr\u003eSender:N/A\u003cbr\u003eReceiver:N/A\u003cbr\u003eStartTime:N/A.0\u003cbr\u003eEndTime:N/A.0\u003cbr\u003eOrigin:Any\u003cbr\u003eDestination:Any\u003cbr\u003eInnocentOrGuilty:N/A\u003cbr\u003eSuspect:N/A\u003cbr\u003eReasoningSelect:Just exploring the data\u003cbr\u003eUserID_x:1805570777\u003cbr\u003eReasoningText_x:What kind of person is Michelle. \u003cbr\u003eUserID_y:N/A105628286\u003cbr\u003eReasoningText_y:What is RoadBloc? What is CARGO? I need more information on roadnav.\u003cbr\u003eUserID_x.1:311605230\u003cbr\u003eReasoningText_x.1:need more info on xin\n i want to know more about michelle\n\u003cbr\u003eUserID_y.1:-2110079241\u003cbr\u003eReasoningText_y.1:check more information about Michelle search more information on roadnav.exe"}, {"id": 4, "label": 4, "shape": "dot", "size": 10, "title": "EventType:discover\u003cbr\u003eDocumentName:N/A\u003cbr\u003eDocumentType:Any\u003cbr\u003eSource:Any\u003cbr\u003ePeople:N/A\u003cbr\u003eSender:N/A\u003cbr\u003eReceiver:N/A\u003cbr\u003eStartTime:N/A.0\u003cbr\u003eEndTime:N/A.0\u003cbr\u003eOrigin:Any\u003cbr\u003eDestination:Any\u003cbr\u003eInnocentOrGuilty:N/A\u003cbr\u003eSuspect:N/A\u003cbr\u003eReasoningSelect:Just exploring the data\u003cbr\u003eUserID_x:1805570777\u003cbr\u003eReasoningText_x:What kind of person is Michelle. \u003cbr\u003eUserID_y:N/A105628286\u003cbr\u003eReasoningText_y:What is RoadBloc? What is CARGO? I need more information on roadnav.\u003cbr\u003eUserID_x.1:311605230\u003cbr\u003eReasoningText_x.1:need more info on xin\n i want to know more about michelle\n\u003cbr\u003eUserID_y.1:-2110079241\u003cbr\u003eReasoningText_y.1:check more information about Michelle search more information on roadnav.exe"}, {"id": 5, "label": 5, "shape": "dot", "size": 10, "title": "EventType:discover\u003cbr\u003eDocumentName:N/A\u003cbr\u003eDocumentType:Any\u003cbr\u003eSource:Any\u003cbr\u003ePeople:N/A\u003cbr\u003eSender:N/A\u003cbr\u003eReceiver:N/A\u003cbr\u003eStartTime:N/A.0\u003cbr\u003eEndTime:N/A.0\u003cbr\u003eOrigin:Any\u003cbr\u003eDestination:Any\u003cbr\u003eInnocentOrGuilty:N/A\u003cbr\u003eSuspect:N/A\u003cbr\u003eReasoningSelect:Just exploring the data\u003cbr\u003eUserID_x:1805570777\u003cbr\u003eReasoningText_x:What kind of person is Michelle. \u003cbr\u003eUserID_y:N/A105628286\u003cbr\u003eReasoningText_y:What is RoadBloc? What is CARGO? I need more information on roadnav.\u003cbr\u003eUserID_x.1:311605230\u003cbr\u003eReasoningText_x.1:need more info on xin\n i want to know more about michelle\n\u003cbr\u003eUserID_y.1:-2110079241\u003cbr\u003eReasoningText_y.1:check more information about Michelle search more information on roadnav.exe"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 1, "to": 0, "weight": 1}, {"arrows": "to", "from": 1, "to": 2, "weight": 1}, {"arrows": "to", "from": 1, "to": 3, "weight": 1}, {"arrows": "to", "from": 1, "to": 4, "weight": 1}, {"arrows": "to", "from": 1, "to": 5, "weight": 1}, {"arrows": "to", "from": 0, "to": 2, "weight": 1}, {"arrows": "to", "from": 2, "to": 0, "weight": 1}, {"arrows": "to", "from": 3, "to": 0, "weight": 1}, {"arrows": "to", "from": 3, "to": 2, "weight": 1}, {"arrows": "to", "from": 4, "to": 0, "weight": 1}, {"arrows": "to", "from": 4, "to": 2, "weight": 1}, {"arrows": "to", "from": 4, "to": 3, "weight": 1}, {"arrows": "to", "from": 5, "to": 0, "weight": 1}, {"arrows": "to", "from": 5, "to": 2, "weight": 1}, {"arrows": "to", "from": 5, "to": 3, "weight": 1}, {"arrows": "to", "from": 5, "to": 4, "weight": 1}, {"arrows": "to", "from": 5, "to": 1, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
